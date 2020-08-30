@@ -1,0 +1,18 @@
+extends ../layout
+
+block content
+    div.create
+        a(href= '/bicicletas') Volver
+        form.form(action='/bicicletas/create' method='post')
+            h2 AGREGA TU BICI
+            label(for='id') ID:
+            input#id(type='text' name='id') 
+            label(for='color') Color:
+            input#color(type='text' name='color' placeholder='escribe El color..')
+            label(for='modelo') Modelo:
+            input#modelo(type='text' name='modelo' placeholder='escribe El modelo..')
+            label(for='lat') Latitud:
+            input#lat(type='text' name='lat' placeholder='escribe las coordenadas de latitud..')
+            label(for='lng') Longitud:
+            input#lng(type='text' name='lng' placeholder='escribe las coordenadas de longitud..')        
+            input.btn(type='submit' value='ok')
