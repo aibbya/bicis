@@ -1,0 +1,39 @@
+extends ../layout
+
+block content
+  a(href="/usuarios") Volver
+  br
+  br
+
+  .container#createUser
+    .message.signup
+      //- .btn-wrapper
+      //-   button#signup.button Sign Up
+      //-   button#login.button  Login
+    .form.form--signup
+      .form--heading Bienvenido! Registrate
+      form(action='/usuarios/create' method='post')
+        input#nombre(type='text' name= 'nombre' placeholder= 'Nombre' value= usuario.nombre /*class= errors.nombre ? 'is-invalid': ''*/)
+        //- if errors.nombre
+        //-   small#nombreHelp.text-danger
+        //-     = errors.nombre.message
+        
+        input#email(type='email', placeholder= 'Email' name= "email" value= usuario.email /*class= errors.email ? 'is-invalid': ''*/)
+        //- if errors.email
+        //-   small#emailHelp.text-danger
+        //-     = errors.email.message
+        input#pwd(type='password' name= 'password' placeholder='Password' value= usuario.password /*class= errors.password ? 'is-invalid': ''*/)
+        //- if errors.password
+        //-   small#passwordHelp.text-danger
+        //-     = errors.password.message
+        input#confirm_pwd(type='password' name= 'confirm_password' placeholder='Confirm Password' value= usuario.confirm_password /*class= errors.confirm_password ? 'is-invalid': ''*/)
+        //- if errors.confirm_password
+        //-   small#confirm_passwordHelp.text-danger
+        //-     = errors.confirm_password.message
+        button.button(type='submit') Sign Up
+    //- .form.form--login
+    //-   .form--heading Bienvenido, Ingresa! 
+    //-   form(autocomplete='off')
+    //-     input(type='text', placeholder='Name')
+    //-     input(type='password', placeholder='Password')
+    //-     button.button Login

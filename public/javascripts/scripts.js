@@ -54,3 +54,21 @@
     // Collapse the navbar when page is scrolled
     $(window).scroll(navbarCollapse);
 })(jQuery); // End of use strict
+
+// Stlyles
+$("#signup").click(function() {
+  $(".message").css("transform", "translateX(100%)");
+  if ($(".message").hasClass("login")) {
+    $(".message").removeClass("login");
+  }
+  $(".message").addClass("signup");
+});
+
+$("#login").click(function() {
+  $(".message").css("transform", "translateX(0)");
+  if ($(".message").hasClass("login")) {
+    $(".message").removeClass("signup");
+  }
+  $(".message").addClass("login");
+});
+

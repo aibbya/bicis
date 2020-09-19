@@ -1,0 +1,19 @@
+.container
+  .message.signup
+    .btn-wrapper
+      button#signup.button Sign Up
+      button#login.button  Login
+  .form.form--signup
+    .form--heading Actualiza tu Usuario
+    form(autocomplete='off')
+      input(type='text', placeholder='Name' value=usuario.nombre class= errors.nombre ? 'is-invalid': '')
+      if errors.nombre
+        small#nombreHelp.text-danger
+          =errors.nombre.message
+      button.button(type='submit') Ok     
+  //- .form.form--login
+  //-   .form--heading Welcome back! 
+  //-   form(autocomplete='off')
+  //-     input(type='text', placeholder='Name')
+  //-     input(type='password', placeholder='Password')
+  //-     button.button Login
