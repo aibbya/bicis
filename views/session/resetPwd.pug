@@ -1,0 +1,35 @@
+extends ../layout
+
+block content
+  a(href="/usuarios") Volver
+  br
+  br
+
+  .container#createUser
+    .message.signup
+      //- .btn-wrapper
+      //-   button#signup.button Sign Up
+      //-   button#login.button  Login
+    .form.form--signup
+      .form--heading RESETEA TU CONTRASEÑA
+      form(action='/resetPassword' method='post')
+                
+        input#email(type=hidden, placeholder= 'Email' name= "email" value= usuario.email /*class= errors.email ? 'is-invalid': ''*/)
+        //- if errors.email
+        //-   small#emailHelp.text-danger
+        //-     = errors.email.message
+        input#pwd(type='password' name= 'password' placeholder='Password' /*class= errors.password ? 'is-invalid': ''*/)
+        //- if errors.password
+        //-   small#passwordHelp.text-danger
+        //-     = errors.password.message
+        input#confirm_pwd(type='password' name= 'confirm_password' placeholder='Confirm Password' /*class= errors.confirm_password ? 'is-invalid': ''*/)
+        //- if errors.confirm_password
+        //-   small#confirm_passwordHelp.text-danger
+        //-     = errors.confirm_password.message
+        button.button(type='submit') Sign Up
+    //- .form.form--login
+    //-   .form--heading Bienvenido, Ingresa! 
+    //-   form(autocomplete='off')
+    //-     input(type='text', placeholder='Name')
+    //-     input(type='password', placeholder='Password')
+    //-     button.button Login

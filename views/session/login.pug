@@ -1,0 +1,32 @@
+extends ../layout
+
+block content
+ 
+  br
+  br
+
+  .container#createUser
+    //- .message.signup
+      //- .btn-wrapper
+      //-   button#signup.button Sign Up
+      //-   button#login.button  Login
+    .form.form--signup
+      .form--heading Bienvenido! Ingresá
+      form(action='/login' method='post')
+                
+        input#email(type='email', placeholder= 'Email' name= "email" /*class= errors.email ? 'is-invalid': ''*/)
+        //- if errors.email
+        //-   small#emailHelp.text-danger
+        //-     = errors.email.message
+        input#pwd(type='password' name= 'password' placeholder='Password' /*class= errors.password ? 'is-invalid': ''*/)
+        //- if errors.password
+        //-   small#passwordHelp.text-danger
+        //-     = errors.password.message
+        a(href="/forgotPwd") Olvidé mi contraseña
+        button.button(type='submit') Sign Up
+    //- .form.form--login
+    //-   .form--heading Bienvenido, Ingresa! 
+    //-   form(autocomplete='off')
+    //-     input(type='text', placeholder='Name')
+    //-     input(type='password', placeholder='Password')
+    //-     button.button Login

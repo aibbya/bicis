@@ -32,6 +32,31 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
+
+app.get('/login', function(req, res){
+  res.render('session/login');
+})
+
+app.post('login', function(req, res){
+  //passport
+});
+
+app.get('/logout', function(req, res){
+
+  res.redirect('/')
+})
+
+app.get('/forgotPwd', function(req, res){
+
+  
+})
+
+app.post('/forgotPwd', function(req, res){
+
+  
+})
+
+
 app.use("/usuarios", usersRouter);
 app.use("/token", tokenRouter)
 

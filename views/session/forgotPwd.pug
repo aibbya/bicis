@@ -1,0 +1,23 @@
+extends ../layout
+
+block content
+  a(href="/usuarios") Volver
+  br
+  br
+
+  .container#createUser
+    .message.signup
+      //- .btn-wrapper
+      //-   button#signup.button Sign Up
+      //-   button#login.button  Login
+    .form.form--signup
+      .form--heading 
+        if info && info.message
+          .alert.alert-danger
+            = info.message
+        h2 Recuperación de Password
+        p Por favor, ingrese su mail y le enviaremos a esa cuenta las instrucciones.
+      form(action="/forgotPwd" method="post")
+        .form-group
+          input#email(type='email', placeholder= 'Email' name= "email" value= usuario.email /*class= errors.email ? 'is-invalid': ''*/)
+          button.button(type='submit') Sign Up
