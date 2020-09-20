@@ -5,6 +5,7 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var passport = require("./config/passport");
 var session = require("express-session");
+const jwt = require('jsonwebtoken')
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
@@ -12,6 +13,7 @@ var tokenRouter = require("./routes/token");
 var bicicletasRouter = require("./routes/bicicletas");
 var bicicletasApiRouter = require("./routes/api/apiRouterBicicletas");
 var usuariosApiRouter = require("./routes/api/apiRouterUsuarios");
+var authApiRouter = require("./routes/api/apiRouterAuth");
 
 var Usuario = require("./models/mdlUsuarios");
 var Token = require("./models/mdlToken");
@@ -19,6 +21,9 @@ var Token = require("./models/mdlToken");
 var store = new session.MemoryStore();
 
 var app = express();
+
+app.set('secretKey', 'jwt_pwd_!!223344')
+
 app.use(
   session({
     cookie: { maxAge: 240 * 60 * 60 * 1000 },
@@ -143,7 +148,9 @@ app.use("/usuarios", usersRouter);
 app.use("/token", tokenRouter);
 
 app.use("/bicicletas", loggedIn, bicicletasRouter);
-app.use("/api/bicicletas", bicicletasApiRouter);
+
+app.use("/api/auth", authApiRouter)
+app.use("/api/bicicletas", validarUsuario, bicicletasApiRouter);
 app.use("/api/usuarios", usuariosApiRouter);
 
 // catch 404 and forward to error handler
@@ -169,6 +176,18 @@ function loggedIn(req, res, next){
     console.log('user sin logears');
     res.redirect('/login');
   }
+}
+
+function validarUsuario(req, res, next){
+  jwt.verify(req.headers['x-access-token'], req.app.get('secretKey'), function (err, decoded){
+    if (err){
+      res.json({status: "error", message: err.message, data:null });
+    } else {
+      req.body.userId = decoded.id;
+      console.log('Jwt verify:', decoded);
+      next()
+    }
+  })
 }
 
 module.exports = app;

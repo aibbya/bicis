@@ -1,9 +1,10 @@
 var Bicicleta = require("../../models/mdlBicicletas");
 
 exports.bicicleta_list = function (req, res) {
-  res.status(200).json({
-    bicicletas: Bicicleta.allBicis,
-  });
+  Bicicleta.allBicis(function(err, bicis){
+    res.status(200).json({
+    bicicletas: bicis,})
+  });  
 };
 
 exports.bicicleta_create = function (req, res) {
@@ -21,6 +22,6 @@ exports.bicicleta_create = function (req, res) {
 };
 
 exports.bicicleta_delete = function (req, res) {
-  Bicicleta.removeById(req.body.id);
+  Bicicleta.removeById(req.body.code);
   res.status(204).send();
 };
