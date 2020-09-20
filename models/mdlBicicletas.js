@@ -27,7 +27,6 @@ bicicletaSchema.methods.toString = function(){
 }
 
 
-
 bicicletaSchema.statics.allBicis = function (cb) {
   return this.find({}, cb);
 };

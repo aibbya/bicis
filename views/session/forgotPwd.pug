@@ -15,9 +15,9 @@ block content
         if info && info.message
           .alert.alert-danger
             = info.message
-        h2 Recuperación de Password
-        p Por favor, ingrese su mail y le enviaremos a esa cuenta las instrucciones.
-      form(action="/forgotPwd" method="post")
+        h2.text-center Recuperación de Password
+        p.mt-4.mb-4 Por favor, ingrese su mail y le enviaremos a esa cuenta las instrucciones.
+      form.mt-5(action="/forgotPwd" method="post")
         .form-group
-          input#email(type='email', placeholder= 'Email' name= "email" value= usuario.email /*class= errors.email ? 'is-invalid': ''*/)
-          button.button(type='submit') Sign Up
+          input#email(type='email', placeholder= 'Email' name= "email" /*class= errors.email ? 'is-invalid': ''*/)
+          button.button.mt-4(type='submit') Sign Up

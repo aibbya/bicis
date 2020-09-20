@@ -12,7 +12,7 @@ block content
       //-   button#login.button  Login
     .form.form--signup
       .form--heading RESETEA TU CONTRASEÑA
-      form(action='/resetPassword' method='post')
+      form(action='/resetPwd' method='post')
                 
         input#email(type=hidden, placeholder= 'Email' name= "email" value= usuario.email /*class= errors.email ? 'is-invalid': ''*/)
         //- if errors.email

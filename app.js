@@ -3,26 +3,31 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-const passport = require('./config/passport')
-const session = require('express-session')
+var passport = require("./config/passport");
+var session = require("express-session");
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var tokenRouter = require("./routes/token");
 var bicicletasRouter = require("./routes/bicicletas");
 var bicicletasApiRouter = require("./routes/api/apiRouterBicicletas");
-var usuariosApiRouter = require('./routes/api/apiRouterUsuarios')
+var usuariosApiRouter = require("./routes/api/apiRouterUsuarios");
 
-const store = new session.MemoryStore;
+var Usuario = require("./models/mdlUsuarios");
+var Token = require("./models/mdlToken");
+
+var store = new session.MemoryStore();
 
 var app = express();
-app.use(session({
-  cookie: {maxAge: 240 * 60 * 60 *1000},
-  store: store,
-  saveUninitialized: true,
-  resave: true,
-  secret: 'red_bicis"!"!"!"...!'
-}))
+app.use(
+  session({
+    cookie: { maxAge: 240 * 60 * 60 * 1000 },
+    store: store,
+    saveUninitialized: true,
+    resave: true,
+    secret: '...!',
+  })
+);
 
 var mongoose = require("mongoose");
 var mongoDB = "mongodb://localhost/red_bicicletas";
@@ -41,41 +46,105 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(passport.initialize());
-app.use(passport.session())
+app.use(passport.session());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 
-app.get('/login', function(req, res){
-  res.render('session/login');
-})
-
-app.post('login', function(req, res){
-  //passport
+app.get("/login", function (req, res) {
+  res.render("session/login");
 });
 
-app.get('/logout', function(req, res){
+app.post("/login", function (req, res, next) {
+  passport.authenticate("local", function (err, usuario, info) {
+    if (err) {
+      console.log(err);
+      return next(err);
+    }
+    if (!usuario) {
+      console.log(info);
+      return res.render("session/login", { info });
+    }
+    req.logIn(usuario, function (err) {
+      if (err) return next(err);
+      return res.redirect("/");
+    });
+  })(req, res, next);
+});
 
-  res.redirect('/')
-})
+app.get("/logout", function (req, res) {
+  req.logOut();
+  res.redirect("/");
+});
 
-app.get('/forgotPwd', function(req, res){
+app.get("/forgotPwd", function (req, res) {
+  res.render("session/forgotPwd");
+});
 
-  
-})
+app.post("/forgotPwd", function (req, res) {
+  Usuario.findOne({ email: req.body.email }, function (err, usuario) {
+    if (!usuario) {
+      return res.render("session/forgotPwd", {
+        info: { message: "No existe este usuario" },
+      });
+    }
 
-app.post('/forgotPwd', function(req, res){
+    usuario.resetPassword(function (err) {
+      if (err) return next(err);
+      console.log("session/forgotPwdMsg");
+    });
+  });
+  res.render("session/forgotPwdMsg");
+});
 
-  
-})
+app.get("/resetPwd/:token", function (req, res, next) {
+  Token.findOne({ token: req.params.token }, function (err, token) {
+    if (!token)
+      return res
+        .status(400)
+        .send({ type: "not-verified", msg: "No existe el usuario" });
+    Usuario.findById(token._userId, function(err, usuario){
+      if (!usuario) return res.status(400).send({ msg: "No existe usuario asociado a este token" });
+      res.render("session/resetPwd", { error: {}, usuario: usuario });
+    })
+  });
+});
 
+app.post("/resetPwd", function (req, res) {
+  if (req.body.password != req.body.confirm_password) {
+    console.log('no coinciden contrase')
+    res.render("session/resetPwd", {
+      errors: {
+        confirm_password: { message: "No coninciden las contraseñas" },
+      },
+    });
+    return;
+  }
+  Usuario.findOne({ email: req.body.email }, function (err, usuario) {
+    usuario.password = req.body.password;
+    usuario.save(function (err) {
+      if (err) {
+        console.log('err', err)
+        res.render("session/resetPwd", {
+          errors: err.errors,
+          usuario: new Usuario({
+            password: req.body.password,
+            confirm_password: req.body.confirm_password,
+          }),
+        });
+      } else {
+        res.redirect("/login");
+      }
+    });
+  });
+});
 
 app.use("/usuarios", usersRouter);
-app.use("/token", tokenRouter)
+app.use("/token", tokenRouter);
 
-app.use("/bicicletas", bicicletasRouter);
+app.use("/bicicletas", loggedIn, bicicletasRouter);
 app.use("/api/bicicletas", bicicletasApiRouter);
-app.use("/api/usuarios", usuariosApiRouter)
+app.use("/api/usuarios", usuariosApiRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -92,5 +161,14 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render("error");
 });
+
+function loggedIn(req, res, next){
+  if (req.user){
+    next();
+  }else {
+    console.log('user sin logears');
+    res.redirect('/login');
+  }
+}
 
 module.exports = app;

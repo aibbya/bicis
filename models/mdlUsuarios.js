@@ -51,6 +51,41 @@ usuarioSchema.pre("save", function () {
   next();
 });
 
+usuarioSchema.methods.validPassword = function (password) {
+  return bcrypt.compareSync(password, this.password);
+};
+
+usuarioSchema.methods.resetPassword = function (cb) {
+  const token = new Token({
+    _userId: this.id,
+    token: crypto.randomBytes(16).toString("hex"),
+  });
+  const email_destino = this.email;
+  token.save(function (err) {
+    if (err) {
+      return console.log(err.message);
+    }   
+    const mailOptions = {
+      from: "no-reply@redbiciletas.com",
+      to: email_destino,
+      subject: "Resete tu Contraseña",
+      text:
+        "HOla, \n\n" +
+        "por favor,para ingresa en este enlace para cambiar tu contraseña: \n" +
+        "http://localhost:3000" +
+        "/resetPwd/" +
+        token.token +
+        ".\n",
+    };   
+    mailer.sendMail(mailOptions, function (err) {
+      if (err) {
+        return console.log(err.message);
+      }
+      console.log("A verification email has been sent to", email_destino);
+    });
+  });
+};
+
 usuarioSchema.methods.reservar = function (biciId, desde, hasta, cb) {
   var reserva = new Reserva({
     usuario: this._id,
