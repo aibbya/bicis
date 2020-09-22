@@ -2,7 +2,7 @@ const express = require("express");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const Usuario = require("../models/mdlUsuarios");
-const Token = require("../models/mdlToken");
+const Token = require("../models/mdl_token");
 
 passport.use(
   new LocalStrategy(

@@ -16,7 +16,7 @@ var usuariosApiRouter = require("./routes/api/apiRouterUsuarios");
 var authApiRouter = require("./routes/api/apiRouterAuth");
 
 var Usuario = require("./models/mdlUsuarios");
-var Token = require("./models/mdlToken");
+var Token = require("./models/mdl_token");
 
 var store = new session.MemoryStore();
 

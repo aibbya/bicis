@@ -5,7 +5,7 @@ const bcrypt = require("bcrypt");
 const crypto = require("crypto");
 const uniqueValidator = require("mongoose-unique-validator");
 const saltRounds = 10;
-const Token = require("./mdlToken");
+const Token = require("./mdl_token");
 const mailer = require("../mailer/mailer");
 var Schema = mongoose.Schema;
 

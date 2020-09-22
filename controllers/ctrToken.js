@@ -1,5 +1,5 @@
 var Usuario = require("../models/mdlUsuarios");
-var Token = require("../models/mdlToken");
+var Token = require("../models/mdl_token");
 // const { token } = require('morgan')
 
 module.exports = {
