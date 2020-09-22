@@ -107,7 +107,7 @@ app.get("/resetPwd/:token", function (req, res, next) {
     if (!token)
       return res
         .status(400)
-        .send({ type: "not-verified", msg: "No existe el usuario" });
+        .send({ type: "not-verified", msg: "Verifique, su token ha expirado" });
     Usuario.findById(token._userId, function(err, usuario){
       if (!usuario) return res.status(400).send({ msg: "No existe usuario asociado a este token" });
       res.render("session/resetPwd", { error: {}, usuario: usuario });
@@ -117,11 +117,11 @@ app.get("/resetPwd/:token", function (req, res, next) {
 
 app.post("/resetPwd", function (req, res) {
   if (req.body.password != req.body.confirm_password) {
-    console.log('no coinciden contrase')
     res.render("session/resetPwd", {
       errors: {
-        confirm_password: { message: "No coninciden las contraseñas" },
+        confirm_password: { message: "No coninciden las contraseñas"},
       },
+      usuario: new Usuario({email: req.body.email})
     });
     return;
   }
@@ -132,10 +132,7 @@ app.post("/resetPwd", function (req, res) {
         console.log('err', err)
         res.render("session/resetPwd", {
           errors: err.errors,
-          usuario: new Usuario({
-            password: req.body.password,
-            confirm_password: req.body.confirm_password,
-          }),
+          usuario: new Usuario({email: req.body.email}),
         });
       } else {
         res.redirect("/login");

@@ -2,14 +2,14 @@ var Bicicleta = require("../models/mdlBicicletas");
 // const Bicicleta = require("../models/mdlBicicletas");
 
 exports.bicicletas_list = function (req, res) {
-  // res.render("bicicletas/index", 
+  // res.render("bicicletas/index",
   // { bicis: Bicicleta.allBicis });
-  Bicicleta.find({}, (err, bicis)=> {
+  Bicicleta.find({}, (err, bicis) => {
     res.render("bicicletas/index", { bicis: bicis });
-  // function (req, res, next) {
-  //   Usuario.find({}, (err, usuarios) => {
-  //     res.render("usuarios/index", { usuarios: usuarios });
-    });
+    // function (req, res, next) {
+    //   Usuario.find({}, (err, usuarios) => {
+    //     res.render("usuarios/index", { usuarios: usuarios });
+  });
   // },
 };
 
@@ -26,20 +26,20 @@ exports.bicicletas_create_post = function (req, res) {
 };
 
 exports.bicicletas_delete_post = function (req, res) {
-  Bicicleta.removeById(req.body.code);
+  Bicicleta.findOneAndRemove(req.body.code);
 
   res.redirect("/bicicletas");
 };
 
 exports.bicicletas_update_get = function (req, res) {
-  var bici = Bicicleta.findById(req.params.code);
+  var bici = Bicicleta.findOne(req.params.code);
 
   res.render("bicicletas/update", { bici });
 };
 
 exports.bicicletas_update_post = function (req, res) {
-  var bici = Bicicleta.findById(req.params.id);
-  bici.id = req.body.code;
+  var bici = Bicicleta.findOne(req.params.code);
+  bici.code = req.body.code;
   bici.color = req.body.color;
   bici.modelo = req.body.modelo;
   bici.ubicacion = [req.body.lat, req.body.lng];

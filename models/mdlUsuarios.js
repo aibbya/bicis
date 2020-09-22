@@ -64,11 +64,11 @@ usuarioSchema.methods.resetPassword = function (cb) {
   token.save(function (err) {
     if (err) {
       return console.log(err.message);
-    }   
+    }
     const mailOptions = {
       from: "no-reply@redbiciletas.com",
       to: email_destino,
-      subject: "Resete tu Contraseña",
+      subject: "Resete su Contraseña",
       text:
         "HOla, \n\n" +
         "por favor,para ingresa en este enlace para cambiar tu contraseña: \n" +
@@ -76,13 +76,14 @@ usuarioSchema.methods.resetPassword = function (cb) {
         "/resetPwd/" +
         token.token +
         ".\n",
-    };   
+    };
     mailer.sendMail(mailOptions, function (err) {
       if (err) {
         return console.log(err.message);
       }
-      console.log("A verification email has been sent to", email_destino);
+      console.log("se envio un mail para resetear contraseña", email_destino);
     });
+    cb(null);
   });
 };
 
