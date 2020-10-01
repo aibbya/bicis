@@ -5,7 +5,7 @@ const TokenSchema = new Schema({
   _userId: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
-    ref: "User",
+    ref: "Usuario",
   },
   token: {
     type: String,
