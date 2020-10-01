@@ -62,7 +62,7 @@ module.exports = {
       function (err, nuevoUsuario) {
         console.log("nvo user 1", nuevoUsuario);
         if (err) {
-          console.log(err)
+          console.log(err);
           console.log("nvo user", nuevoUsuario);
           res.render("usuarios/create", {
             error: err.errors,
@@ -74,7 +74,7 @@ module.exports = {
         } else {
           console.log("else antts de enviar mail");
           nuevoUsuario.enviar_email_bienvenida();
-          res.redirect("/usuarios");
+          res.redirect("/login");
         }
       }
     );
