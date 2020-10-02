@@ -34,7 +34,7 @@ exports.bicicletas_create_post = function (req, res) {
       if (err) {
         console.log(err);
         console.log("nvo Bici Con error", nuevaBici);
-        res.render("bicilcletas/create", {
+        res.render("bicicletas/create", {
           error: err.errors,
           bici: new Bicicleta({
             code: req.body.id,
