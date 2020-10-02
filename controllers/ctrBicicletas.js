@@ -28,20 +28,19 @@ exports.bicicletas_create_post = function (req, res) {
       code: req.body.id,
       modelo: req.body.modelo,
       color: req.body.color,
-      ubicacion: [req.body.lat, req.body.lgt],
+      ubicacion: [req.body.lat, req.body.lng],
     },
     function (err, nuevaBici) {
       if (err) {
         console.log(err);
-        console.log("nvo Bici Con error", nuevaBici);
+        console.log("nvo Bici Con error");
         res.render("bicicletas/create", {
           error: err.errors,
           bici: new Bicicleta({
             code: req.body.id,
             modelo: req.body.modelo,
             color: req.body.color,
-            latitud: req.body.lat,
-            longitud: req.body.lng,
+            ubicacion: [req.body.lat, req.body.lng]
           }),
         });
       } else {

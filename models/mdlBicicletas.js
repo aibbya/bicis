@@ -27,24 +27,24 @@ bicicletaSchema.statics.createInstance = function (
   });
 };
 
-bicicletaSchema.methods.toString = function () {
-  return "code: " + this.code + " | color: " + this.color;
-};
+// bicicletaSchema.methods.toString = function () {
+//   return "code: " + this.code + " | color: " + this.color;
+// };
 
 bicicletaSchema.statics.allBicis = function (cb) {
   return this.find({}, cb);
 };
 
-bicicletaSchema.statics.add = function (aBici, cb) {
-  this.create(aBici, cb);
-};
+// bicicletaSchema.statics.add = function (aBici, cb) {
+//   this.create(aBici, cb);
+// };
 
-bicicletaSchema.statics.findByCode = function (aCode, cb) {
-  console.log("bicicletaSchema.statics.findByCode", aCode);
-  return this.findOne({ code: aCode }, cb);
-};
-bicicletaSchema.statics.removeByCode = function (aCode, cb) {
-  return this.deleteOne({ code: aCode }, cb);
-};
+// bicicletaSchema.statics.findByCode = function (aCode, cb) {
+//   console.log("bicicletaSchema.statics.findByCode", aCode);
+//   return this.findOne({ code: aCode }, cb);
+// };
+// bicicletaSchema.statics.removeByCode = function (aCode, cb) {
+//   return this.deleteOne({ code: aCode }, cb);
+// };
 
 module.exports = mongoose.model("Bicicleta", bicicletaSchema);
