@@ -13,7 +13,12 @@ var bicicletaSchema = new Schema({
   },
 });
 
-bicicletaSchema.statics.createInstance = function(code, color, modelo, ubicacion) {
+bicicletaSchema.statics.createInstance = function (
+  code,
+  color,
+  modelo,
+  ubicacion
+) {
   return new this({
     code: code,
     color: color,
@@ -22,10 +27,9 @@ bicicletaSchema.statics.createInstance = function(code, color, modelo, ubicacion
   });
 };
 
-bicicletaSchema.methods.toString = function(){
+bicicletaSchema.methods.toString = function () {
   return "code: " + this.code + " | color: " + this.color;
-}
-
+};
 
 bicicletaSchema.statics.allBicis = function (cb) {
   return this.find({}, cb);
@@ -36,6 +40,7 @@ bicicletaSchema.statics.add = function (aBici, cb) {
 };
 
 bicicletaSchema.statics.findByCode = function (aCode, cb) {
+  console.log("bicicletaSchema.statics.findByCode", aCode);
   return this.findOne({ code: aCode }, cb);
 };
 bicicletaSchema.statics.removeByCode = function (aCode, cb) {

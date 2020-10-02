@@ -6,7 +6,7 @@ block content
         form.form(action=`/bicicletas/${bici.id}/update` method='post')
             h2 ACTUALIZANDO BICI
             label(for='id') ID:
-            input#id(type='text' name='id' value=bici.id) 
+            input#id(type='text' name='id' value=bici.code) 
             label(for='color') Color:
             input#color(type='text' name='color' value=bici.color placeholder=)
             label(for='modelo') Modelo:

@@ -1,13 +1,14 @@
 extends ../layout
 
 block content
+    a(href= '/') Volver al inicio
     div
       button.btn 
         a(href= '/bicicletas/create') Agrega una Nueva Bicicleta
     table.table.table-bordered.table-hover
         thead.table-success
             tr.text-center
-                th(scope='col') #
+                th(scope='col') Code
                 th(scope='col') Color
                 th(scope='col') Modelo
                 th(scope='col') Ubicación
@@ -21,9 +22,9 @@ block content
                     td= bici.ubicacion
                     td
                       form.inline(method='post' action='bicicletas/' + bici.code + '/delete')
-                        input(type="hidden" name='id' value= bici.code)
+                        input(type="hidden" name='id' value= bici._id)
                         button(type='submit' name='submit_param' value='submit_value' class='btn') 
                           = 'Eliminar'
                         button.btn
-                          a(href= 'bicicletas/' + bici.code + '/update') Editar
+                          a(href= 'bicicletas/' + bici._id + '/update') Editar
                       

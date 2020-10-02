@@ -1,4 +1,4 @@
-require('dotenv').config();
+require("dotenv").config();
 var createError = require("http-errors");
 var express = require("express");
 var path = require("path");
@@ -6,7 +6,7 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var passport = require("./config/passport");
 var session = require("express-session");
-const jwt = require('jsonwebtoken')
+const jwt = require("jsonwebtoken");
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
@@ -23,7 +23,7 @@ var store = new session.MemoryStore();
 
 var app = express();
 
-app.set('secretKey', 'jwt_pwd_!!223344')
+app.set("secretKey", "jwt_pwd_!!223344");
 
 app.use(
   session({
@@ -31,7 +31,7 @@ app.use(
     store: store,
     saveUninitialized: true,
     resave: true,
-    secret: '...!',
+    secret: "...!",
   })
 );
 
@@ -111,10 +111,13 @@ app.get("/resetPwd/:token", function (req, res, next) {
       return res
         .status(400)
         .send({ type: "not-verified", msg: "Verifique, su token ha expirado" });
-    Usuario.findById(token._userId, function(err, usuario){
-      if (!usuario) return res.status(400).send({ msg: "No existe usuario asociado a este token" });
+    Usuario.findById(token._userId, function (err, usuario) {
+      if (!usuario)
+        return res
+          .status(400)
+          .send({ msg: "No existe usuario asociado a este token" });
       res.render("session/resetPwd", { error: {}, usuario: usuario });
-    })
+    });
   });
 });
 
@@ -122,9 +125,9 @@ app.post("/resetPwd", function (req, res) {
   if (req.body.password != req.body.confirm_password) {
     res.render("session/resetPwd", {
       errors: {
-        confirm_password: { message: "No coninciden las contraseñas"},
+        confirm_password: { message: "No coninciden las contraseñas" },
       },
-      usuario: new Usuario({email: req.body.email})
+      usuario: new Usuario({ email: req.body.email }),
     });
     return;
   }
@@ -132,10 +135,10 @@ app.post("/resetPwd", function (req, res) {
     usuario.password = req.body.password;
     usuario.save(function (err) {
       if (err) {
-        console.log('err', err)
+        console.log("err", err);
         res.render("session/resetPwd", {
           errors: err.errors,
-          usuario: new Usuario({email: req.body.email}),
+          usuario: new Usuario({ email: req.body.email }),
         });
       } else {
         res.redirect("/login");
@@ -149,9 +152,9 @@ app.use("/token", tokenRouter);
 
 app.use("/bicicletas", loggedIn, bicicletasRouter);
 
-app.use("/api/auth", authApiRouter)
-app.use("/api/bicicletas", validarUsuario, bicicletasApiRouter);
-app.use("/api/usuarios", usuariosApiRouter);
+app.use("/api/auth", authApiRouter);
+app.use("/api/bicicletas", bicicletasApiRouter);
+app.use("/api/usuarios", validarUsuario, usuariosApiRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -169,25 +172,28 @@ app.use(function (err, req, res, next) {
   res.render("error");
 });
 
-function loggedIn(req, res, next){
-  if (req.user){
+function loggedIn(req, res, next) {
+  if (req.user) {
     next();
-  }else {
-    console.log('user sin logears');
-    res.redirect('/login');
+  } else {
+    console.log("user sin logears");
+    res.redirect("/login");
   }
 }
 
-function validarUsuario(req, res, next){
-  jwt.verify(req.headers['x-access-token'], req.app.get('secretKey'), function (err, decoded){
-    if (err){
-      res.json({status: "error", message: err.message, data:null });
+function validarUsuario(req, res, next) {
+  jwt.verify(req.headers["x-access-token"], req.app.get("secretKey"), function (
+    err,
+    decoded
+  ) {
+    if (err) {
+      res.json({ status: "error", message: err.message, data: null });
     } else {
       req.body.userId = decoded.id;
-      console.log('Jwt verify:', decoded);
-      next()
+      console.log("Jwt verify:", decoded);
+      next();
     }
-  })
+  });
 }
 
 module.exports = app;
