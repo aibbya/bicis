@@ -72,7 +72,7 @@ module.exports = {
             }),
           });
         } else {
-          console.log("else antts de enviar mail");
+          console.log("else antes de enviar mail");
           nuevoUsuario.enviar_email_bienvenida();
           res.redirect("/login");
         }

@@ -6,7 +6,7 @@ let mailConfig;
 if (process.env.NODE_ENV === 'production'){
   const options = {
     auth: {
-      api_key: process.env.SENGRID_API_SECRET
+      api_key: process.env.SENDGRID_API_SECRET
     }
   }
   mailConfig= sgTransport(options);
@@ -15,7 +15,7 @@ if (process.env.NODE_ENV === 'production'){
     console.logo("XXXX");
     const options = {
       auth:{
-        api_key: process.env.SENGRID_API_SECRET
+        api_key: process.env.SENDGRID_API_SECRET
       } 
     }
     mailConfig = sgTransport(options);
