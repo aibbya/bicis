@@ -72,7 +72,7 @@ usuarioSchema.methods.resetPassword = function (cb) {
       text:
         "HOla, \n\n" +
         "por favor,para ingresa en este enlace para cambiar tu contraseña: \n" +
-        "http://localhost:3000" +
+        "https://red-bicis-aibby.herokuapp.com" +
         "/resetPwd/" +
         token.token +
         ".\n",
@@ -115,7 +115,7 @@ usuarioSchema.methods.enviar_email_bienvenida = function (cb) {
       text:
         "HOla, \n\n" +
         "por favor,para verificar su cuenta haga click en este enlace: \n" +
-        "http://localhost:3000" +
+        "https://red-bicis-aibby.herokuapp.com" +
         "/token/confirmation/" +
         token.token +
         ".\n",
