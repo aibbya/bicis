@@ -66,7 +66,7 @@ usuarioSchema.methods.resetPassword = function (cb) {
       return console.log(err.message);
     }
     const mailOptions = {
-      from: "no-reply@redbiciletas.com",
+      from: "aibbyale@gmail.com",
       to: email_destino,
       subject: "Resete su Contraseña",
       text:
@@ -109,7 +109,7 @@ usuarioSchema.methods.enviar_email_bienvenida = function (cb) {
       return console.log(err.message);
     }
     const mailOptions = {
-      from: "no-reply@redbiciletas.com",
+      from: "aibbyale@gmail.com",
       to: email_destino,
       subject: "Verificacion de Cuenta",
       text:
