@@ -62,8 +62,7 @@ module.exports = {
       function (err, nuevoUsuario) {
         console.log("nvo user 1", nuevoUsuario);
         if (err) {
-          console.log(err);
-          console.log("nvo user", nuevoUsuario);
+          console.log(err);  
           res.render("usuarios/create", {
             error: err.errors,
             usuario: new Usuario({
