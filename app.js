@@ -160,6 +160,10 @@ app.use("/politica_de_privacidad", function(req, res){
   res.sendFile("public/politica_de_privacidad.html");
 })
 
+app.use("/google9dceff3ac65a565e", function(req, res){
+  res.sendFile("public/google9dceff3ac65a565e.html");
+})
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
