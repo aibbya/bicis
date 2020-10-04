@@ -178,7 +178,7 @@ app.use("/google9dceff3ac65a565e", function(req, res){
 })
 
 app.get('/auth/google',
-  passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login','https://www.googleapis.com/auth/plus.profile.emails.read'] }));
+  passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login','https://www.googleapis.com/auth/plus.profile.emails.read', 'profile','email'] }));
   // https://www.googleapis.com/auth/plus.login
   // https://www.googleapis.com/auth/plus.profiel.emails.read
 
