@@ -75,7 +75,7 @@ usuarioSchema.methods.resetPassword = function (cb) {
         "https://red-bicis-aibby.herokuapp.com" +
         "/resetPwd/" +
         token.token +
-        ".\n",
+        " .\n",
     };
     mailer.sendMail(mailOptions, function (err) {
       if (err) {
@@ -113,12 +113,12 @@ usuarioSchema.methods.enviar_email_bienvenida = function (cb) {
       to: email_destino,
       subject: "Verificacion de Cuenta",
       text:
-        "HOla, \n\n" +
+        "Hola, \n\n" +
         "por favor,para verificar su cuenta haga click en este enlace: \n" +
         "https://red-bicis-aibby.herokuapp.com" +
         "/token/confirmation/" +
         token.token +
-        ".\n",
+        " .\n",
     };
     mailer.sendMail(mailOptions, function (err) {
       if (err) {
