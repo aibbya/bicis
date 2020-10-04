@@ -31,7 +31,9 @@ passport.use(new GoogleStrategy({
   callbackURL: process.env.HOST +"/auth/google/callback"
 },
 function(accessToken, refreshToken, profile, cb) {
+  console.log("entre en LocalStrategy", profile);
   Usuario.findOrCreate({ googleId: profile.id }, function (err, user) {
+    console.log("########entre en GoogleStrategy", user);
     return cb(err, user);
   });
 }
