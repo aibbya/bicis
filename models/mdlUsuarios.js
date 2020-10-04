@@ -134,11 +134,13 @@ usuarioSchema.statics.findOrCreate = function findOrCreate(
   callback
 ) {
   const self = this;
+  console.log("=======1==== CONDITION ================");
   console.log(condition);
-  self.findOne({
-    $or: [
-      { googleId: condition.id }, { email: condition.emails[0].value }
-    ]},  (err, result) => {
+  self.findOne(
+    {
+      $or: [{ googleId: condition.id }, { email: condition.emails[0].value }],
+    },
+    (err, result) => {
       if (result) {
         callback(err, result);
       } else {
@@ -153,11 +155,14 @@ usuarioSchema.statics.findOrCreate = function findOrCreate(
         console.log("================ VALUES ================");
         console.log(values);
         self.create(values, (err, result) => {
-          if (err) {console.log(err);}
-          return callback(err, result)
+          if (err) {
+            console.log(err);
+          }
+          return callback(err, result);
         });
       }
-    });
+    }
+  );
 };
 
 module.exports = mongoose.model("Usuario", usuarioSchema);
