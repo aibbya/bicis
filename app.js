@@ -178,9 +178,13 @@ app.use("/google9dceff3ac65a565e", function(req, res){
 })
 
 app.get('/auth/google',
-  passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login','https://www.googleapis.com/auth/plus.profile.emails.read', 'profile','email'] }));
+  passport.authenticate('google', { scope: ['profile','email'] }));
   // https://www.googleapis.com/auth/plus.login
   // https://www.googleapis.com/auth/plus.profiel.emails.read
+  // 'https://www.googleapis.com/auth/plus.login',
+  //           'https://www.googleapis.com/auth/plus.profile.emails.read',
+  //           'profile',
+  //           'email',
 
 app.get('/auth/google/callback', 
   passport.authenticate('google', { failureRedirect: '/login' }),
