@@ -144,7 +144,7 @@ usuarioSchema.statics.findOrCreateByGoogle = function findOrCreate(
       if (result) {
         callback(err, result);
       } else {
-        console.log("================ CONDITION ================");
+        console.log("======2======= CONDITION ================");
         console.log(condition);
         let values = {};
         values.googleId = condition.id;
