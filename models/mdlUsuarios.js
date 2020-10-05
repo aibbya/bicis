@@ -129,7 +129,7 @@ usuarioSchema.methods.enviar_email_bienvenida = function (cb) {
   });
 };
 
-usuarioSchema.statics.findOrCreate = function findOrCreate(
+usuarioSchema.statics.findOrCreateByGoogle = function findOrCreate(
   condition,
   callback
 ) {

@@ -6,7 +6,7 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const passport = require("./config/passport");
 var session = require("express-session");
-const MongoDBStore = require('connect-mongodb-session')(session);
+const MongoDBStore = require("connect-mongodb-session")(session);
 const jwt = require("jsonwebtoken");
 
 var indexRouter = require("./routes/index");
@@ -21,17 +21,17 @@ var Usuario = require("./models/mdlUsuarios");
 var Token = require("./models/mdl_token");
 
 let store;
-if (process.env.NODE_ENV === 'development'){
+if (process.env.NODE_ENV === "development") {
   store = new session.MemoryStore();
-}else{
+} else {
   store = new MongoDBStore({
     uri: process.env.MONGO_URI,
-    collection: 'sessions'
+    collection: "sessions",
   });
-  store.on('error', function(error){
+  store.on("error", function (error) {
     assert.ifError(error);
     assert.ok(false);
-  })
+  });
 }
 
 var app = express();
@@ -169,31 +169,33 @@ app.use("/api/auth", authApiRouter);
 app.use("/api/bicicletas", bicicletasApiRouter);
 app.use("/api/usuarios", validarUsuario, usuariosApiRouter);
 
-app.use("/politica_de_privacidad", function(req, res){
+app.use("/politica_de_privacidad", function (req, res) {
   res.sendFile("public/politica_de_privacidad.html");
-})
+});
 
-app.use("/google9dceff3ac65a565e", function(req, res){
+app.use("/google9dceff3ac65a565e", function (req, res) {
   res.sendFile("public/google9dceff3ac65a565e.html");
-})
+});
 
-app.get('/auth/google',
-  passport.authenticate('google', { scope: ['profile','email'] }));
-  // https://www.googleapis.com/auth/plus.login
-  // https://www.googleapis.com/auth/plus.profiel.emails.read
-  // 'https://www.googleapis.com/auth/plus.login',
-  //           'https://www.googleapis.com/auth/plus.profile.emails.read',
-  //           'profile',
-  //           'email',
+app.get(
+  "/auth/google",
+  passport.authenticate("google", { scope: ["profile", "emails"] })
+);
+// https://www.googleapis.com/auth/plus.login
+// https://www.googleapis.com/auth/plus.profiel.emails.read
+// 'https://www.googleapis.com/auth/plus.login',
+//           'https://www.googleapis.com/auth/plus.profile.emails.read',
+//           'profile',
+//           'email',
 
-app.get('/auth/google/callback', 
-  passport.authenticate('google', { failureRedirect: '/login' }),
-  function(req, res) {
+app.get(
+  "/auth/google/callback",
+  passport.authenticate("google", { failureRedirect: "/login" }),
+  function (req, res) {
     // Successful authentication, redirect home.
-    res.redirect('/');
-  });
-
-
+    res.redirect("/");
+  }
+);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
