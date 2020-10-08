@@ -133,14 +133,14 @@ usuarioSchema.methods.enviar_email_bienvenida = function (cb) {
 
 usuarioSchema.statics.findOneOrCreateByGoogle = function findOneOrCreateByGoogle(
   condition,
-  email,
   callback
 ) {
   const self = this;
   console.log(condition);
+  console.log(condition.emails);
   self.findOne(
     {
-      $or: [{ googleId: condition.id }, { email: email }],
+      $or: [{ googleId: condition.id }, { email: condition.emails }],
     },
     (err, result) => {
       if (result) {

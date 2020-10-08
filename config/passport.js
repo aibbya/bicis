@@ -33,9 +33,9 @@ passport.use(
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL: process.env.HOST + "/auth/google/callback",
     },
-    function (accessToken, refreshToken, profile, email, cb) {
-      console.log("entre en GoogleStrategy", profile, email);
-      Usuario.findOneOrCreateByGoogle({ googleId: profile.id }, {email: email}   , function (
+    function (accessToken, refreshToken, profile, cb) {
+      console.log("entre en GoogleStrategy", profile);
+      Usuario.findOneOrCreateByGoogle({ googleId: profile.id }, function (
         err,
         user
       ) {
