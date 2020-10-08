@@ -4,6 +4,7 @@ const LocalStrategy = require("passport-local").Strategy;
 const Usuario = require("../models/mdlUsuarios");
 const Token = require("../models/mdl_token");
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const FacebookTokenStrategy = require('passport-facebook-token');
 
 passport.use(
   new LocalStrategy(
@@ -36,6 +37,23 @@ function(accessToken, refreshToken, profile, cb) {
     console.log("########entre en GoogleStrategy", user);
     return cb(err, user);
   });
+}
+));
+
+passport.use(new FacebookTokenStrategy( {
+  clientID: process.env.FACEBOOK_ID,
+  clientSecret: process.env.FACEBOOK_SECRET,
+  callbackURL: process.env.HOST + "/auth/facebook/callback"
+}, function (accessToken, refreshToken, profile, done) {
+  try {
+      Usuario.findOneOrCreateByFacebook(profile, function(err, user) {
+          if (err) console.log('err' + err);
+          return done(err, user);
+      });
+  } catch(err2) {
+      console.log(err2);
+      return done(err2, null);
+  }
 }
 ));
 
