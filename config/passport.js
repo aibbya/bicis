@@ -35,7 +35,7 @@ passport.use(
     },
     function (accessToken, refreshToken, profile, cb) {
       console.log("entre en LocalStrategy", profile);
-      Usuario.findOneOrCreateByGoogle({ googleId: profile.id }, function (
+      Usuario.findOneOrCreateByGoogle({ googleId: profile.id, } , function (
         err,
         user
       ) {
