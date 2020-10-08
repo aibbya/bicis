@@ -39,8 +39,8 @@ var usuarioSchema = new Schema({
     type: Boolean,
     default: false,
   },
-  googleId: {type: String},
-  facebookId: {type: String}
+  googleId: { type: String },
+  facebookId: { type: String },
 });
 usuarioSchema.plugin(uniqueValidator, {
   message: "El {PATH} ya existe con otro usuario",
@@ -131,66 +131,71 @@ usuarioSchema.methods.enviar_email_bienvenida = function (cb) {
   });
 };
 
-usuarioSchema.statics.findOneOrCreateByGoogle = function findOneOrCreateByGoogle(condition, callback) {
-
+usuarioSchema.statics.findOneOrCreateByGoogle = function findOneOrCreateByGoogle(
+  condition,
+  email,
+  callback
+) {
   const self = this;
   console.log(condition);
-  self.findOne( {
-      $or: [
-          { 'googleId': condition.id },
-          {'email': condition._json.email}
-  ]}, (err, result) => {
+  self.findOne(
+    {
+      $or: [{ googleId: condition.id }, { email: email }],
+    },
+    (err, result) => {
       if (result) {
-          callback(err, result)
+        callback(err, result);
+      } else {
+        console.log("---1----- CONDITION ---------");
+        console.log(condition);
+        let values = {};
+        values.googleId = condition.id;
+        values.email = condition.emails[0].value;
+        values.nom = condition.displayName || "SIN NOMBRE";
+        values.verificado = true;
+        values.password = crypto.randomBytes(16).toString("hex");
+        console.log("----------- VALUES ----------");
+        console.log(values);
+        self.create(values, (err, result) => {
+          if (err) console.log(err);
+          return callback(err, result);
+        });
       }
-      else {
-          console.log('--------- CONDITION ---------');
-          console.log(condition);
-          let values = {};
-          values.googleId = condition.id;
-          values.email = condition.emails[0].value;
-          values.nom = condition.displayName || 'SIN NOMBRE';
-          values.verificado = true;
-          values.password = crypto.randomBytes(16).toString('hex');
-          console.log('----------- VALUES ----------');
-          console.log(values);
-          self.create(values, (err, result) => {
-              if (err)  console.log(err); 
-              return callback(err, result)
-          })
-      }
-  })
+    }
+  );
 };
 
-usuarioSchema.statics.findOneOrCreateByFacebook = function findOneOrCreateByFacebook(condition, callback) {
-
+usuarioSchema.statics.findOneOrCreateByFacebook = function findOneOrCreateByFacebook(
+  condition,
+  callback
+) {
   const self = this;
   console.log(condition);
-  self.findOne( {
-      $or: [
-          { 'facebookId': condition.id },
-          {'email': condition.emails[0].value}
-  ]}, (err, result) => {
+  self.findOne(
+    {
+      $or: [{ facebookId: condition.id }, { email: condition.emails[0].value }],
+    },
+    (err, result) => {
       if (result) {
-          callback(err, result)
+        callback(err, result);
+      } else {
+        console.log("--------- CONDITION ---------");
+        console.log(condition);
+        let values = {};
+        values.facebookId = condition.id;
+        values.email = condition.emails[0].value;
+        values.nombre = condition.displayName || "SIN NOMBRE";
+        values.verificado = true;
+        values.password = crypto.randomBytes(16).toString("hex");
+        console.log("----------- VALUES ----------");
+        console.log(values);
+        self.create(values, (err, result) => {
+          if (err) console.log(err);
+          return callback(err, result);
+        });
       }
-      else {
-          console.log('--------- CONDITION ---------');
-          console.log(condition);
-          let values = {};
-          values.facebookId = condition.id;
-          values.email = condition.emails[0].value;
-          values.nombre = condition.displayName || 'SIN NOMBRE';
-          values.verificado = true;
-          values.password = crypto.randomBytes(16).toString('hex');
-          console.log('----------- VALUES ----------');
-          console.log(values);
-          self.create(values, (err, result) => {
-              if (err)  console.log(err); 
-              return callback(err, result)
-          })
-      }
-  })
+    }
+  );
 };
 
 module.exports = mongoose.model("Usuario", usuarioSchema);
