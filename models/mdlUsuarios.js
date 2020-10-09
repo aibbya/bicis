@@ -140,7 +140,7 @@ usuarioSchema.statics.findOneOrCreateByGoogle = function findOneOrCreateByGoogle
   console.log(condition.emails);
   self.findOne(
     {
-      $or: [{ googleId: condition.id }, { email: condition.emails }],
+      $or: [{ googleId: condition.id }, { email: condition.emails[0].value }],
     },
     (err, result) => {
       if (result) {
